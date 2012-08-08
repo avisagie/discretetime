@@ -9,4 +9,8 @@ ranges, i.e. timeranges with more than one tag?
 
 Make it not minimizable, and doubel check always on top.
 
-Tray icon, jar packaging
+Tray icon, jar packaging, install instructions
+
+Config file:
+* interval
+* 
