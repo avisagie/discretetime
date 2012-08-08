@@ -1,0 +1,12 @@
+use alt-enter to commit
+
+get :tags out and add to a different csv field from notes
+
+Ponder duration field, time spent not editing in the box is idle time?
+Maybe it should have an include tick box to include the preceding
+timerange or not? Default is included... What to do about shared time
+ranges, i.e. timeranges with more than one tag?
+
+Make it not minimizable, and doubel check always on top.
+
+Tray icon, jar packaging
