@@ -20,6 +20,9 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Popup extends JFrame {
 	public interface Listener {
@@ -59,7 +62,9 @@ public class Popup extends JFrame {
 
 	private void commit() {
 		try {
-			Popup.this.model.addNote(new Date(), textArea.getText());
+			final String note = textArea.getText();
+			Popup.this.model.addNote(new Date(), note);
+			textArea.setText(Notes.extractTags(note));			
 			log.fine("Added note");
 		} catch (IOException e1) {
 			log.log(Level.WARNING, "Error:", e1);
@@ -72,14 +77,23 @@ public class Popup extends JFrame {
 	 * Create the frame.
 	 */
 	public Popup(Notes model, Listener listener) {
+		
 		this.model = model;
 		this.listener = listener;
+
+		addWindowListener(new WindowAdapter() {
+			@Override public void windowClosing(WindowEvent e) {
+				dismiss();
+			}
+		});
+		
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Popup.class.getResource("/images/clock32.png")));
 		
 		setType(Type.POPUP);
 		setModalExclusionType(ModalExclusionType.TOOLKIT_EXCLUDE);
 		setAlwaysOnTop(true);
 		setTitle("'Sup?");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 237, 222);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

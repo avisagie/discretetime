@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project discretetime">
+  <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+  <!--ANT 1.7 is required                                        -->
+  <target name="compile">
+    <mkdir dir="bin"/>
+    <javac debug="true" srcdir="src" destdir="bin" encoding="utf8" source="1.6" target="1.6">
+      <include name="**/*.java"/>
+    </javac>
+  </target>
+  
+  <target name="images">
+    <copydir dest="bin/images" src="src/images"></copydir>
+  </target>
+  
+  <target name="create_run_jar" depends="compile,images">
+  	<mkdir dir="out"/>
+    <jar destfile="C:/albert/workspace/discretetime/out/discretetime-0.1.jar" filesetmanifest="mergewithoutmain">
+      <manifest>
+        <attribute name="Main-Class" value="dt.Main"/>
+        <attribute name="Class-Path" value="."/>
+      </manifest>
+      <fileset dir="C:/albert/workspace/discretetime/bin"/>
+    </jar>
+  </target>
+
+  <target name="clean">
+    <delete dir="bin"></delete>
+    <delete dir="out"></delete>
+  </target>
+  
+	<target name="zip"  depends="create_run_jar">
+		<copy file="discretetime.bat" todir="out"/>
+		<zip basedir="out" destfile="discretetime-0.1.zip">
+			<include name="*"/>
+		</zip>
+	</target>
+	
+  <target name="all" depends="zip"/>
+</project>

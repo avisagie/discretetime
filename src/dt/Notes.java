@@ -7,6 +7,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Notes {
 
@@ -27,13 +29,32 @@ public class Notes {
 		final FileOutputStream st = new FileOutputStream(notesFile, true);
 		final PrintWriter out = new PrintWriter(new OutputStreamWriter(st, UTF8));
 		try {
-			out.print(Util.formatDate(timestamp));
-			out.print(',');
-			out.println(note.replace('\n', ';').replace("\r", ""));
+			StringBuilder sb = new StringBuilder();
+			sb.append(Util.formatDate(timestamp)).append(',');
+			extractTags(sb, note).append(',');
+			sb.append(note.replace('\n', ';').replace("\r", ""));
+			out.println(sb.toString());
 		} finally {
 			out.flush();
 			st.getChannel().force(true);
 			out.close();
 		}
+	}
+
+	private static final Pattern tags = Pattern.compile(":\\S+");
+	public static StringBuilder extractTags(StringBuilder sb, String note) {
+		final Matcher m = tags.matcher(note);
+		boolean zero = true;
+		while (m.find()) {
+			zero = false;
+			sb.append(m.group()).append(' ');
+		}
+		if (!zero) sb.setLength(sb.length()-1); // whack the last space
+		return sb;
+	}
+
+	public static String extractTags(String note) {
+		final StringBuilder sb = new StringBuilder();
+		return extractTags(sb, note).toString();
 	}
 }
