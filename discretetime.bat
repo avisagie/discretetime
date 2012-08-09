@@ -1,2 +1,2 @@
 @echo off
-start javaw -ms16m -mx16m -jar discretetime-0.1.jar
+start javaw -Djava.util.logging.config.file=logging.properties -ms16m -mx16m -jar discretetime-0.1.jar

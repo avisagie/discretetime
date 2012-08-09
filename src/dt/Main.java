@@ -14,15 +14,32 @@ public class Main {
 
 	private static final Logger log = Util.getLogger();
 
-	private static Popup popup;
+	private static Popup popup = null;
 
 	private static final Object lock = new Object();
 
 	private static boolean running = true;
 	private static final Object sleep = new Object();
-	
+
 	public static void main(String[] args) throws IOException {
-		File file = new File(System.getProperty("user.home"), "discretetime");
+		try {
+			setup();
+			timingLoop();
+		} catch (Throwable e) {
+			log.log(Level.SEVERE, "Error:", e);
+		} finally {
+			if (popup != null) {
+				popup.dispose();
+			}
+			if (SystemTray.isSupported()) {
+				Tray.close();
+			}
+		}
+	}
+
+	private static void setup() throws IOException {
+		final File file = new File(System.getProperty("user.home"),
+				"discretetime");
 		log.log(Level.INFO, "Starting in {0}", file);
 		final Notes model = new Notes(file);
 		popup = new Popup(model, new Listener() {
@@ -58,7 +75,7 @@ public class Main {
 					public void pause() {
 						// TODO Auto-generated method stub
 					}
-					
+
 					@Override
 					public void popup() {
 						popup.popup();
@@ -70,9 +87,13 @@ public class Main {
 		} else {
 			log.warning("SystemTray not available");
 		}
+	}
 
+	private static void timingLoop() {
 		while (running) {
 			popup.popup();
+
+			// wait for the user to close the window
 			synchronized (lock) {
 				try {
 					lock.wait();
@@ -80,16 +101,19 @@ public class Main {
 					log.log(Level.WARNING, "Unexpected interrupt", e);
 				}
 			}
-			synchronized (sleep) {
-				try {
-					if (running) sleep.wait(PERIOD);
-				} catch (InterruptedException e) {
-					log.log(Level.WARNING, "Unexpected interrupt", e);
+
+			// Wait until it is time to come up again
+			final long start = System.currentTimeMillis();
+			while (System.currentTimeMillis() - start < PERIOD && running) {
+				synchronized (sleep) {
+					try {
+						if (running)
+							sleep.wait(1000);
+					} catch (InterruptedException e) {
+						log.log(Level.WARNING, "Unexpected interrupt", e);
+					}
 				}
 			}
 		}
-		
-		popup.dispose();
-		System.exit(0);
 	}
 }

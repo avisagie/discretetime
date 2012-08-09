@@ -31,6 +31,7 @@
   
 	<target name="zip"  depends="create_run_jar">
 		<copy file="discretetime.bat" todir="out"/>
+		<copy file="logging.properties" todir="out"/>
 		<zip basedir="out" destfile="discretetime-0.1.zip">
 			<include name="*"/>
 		</zip>

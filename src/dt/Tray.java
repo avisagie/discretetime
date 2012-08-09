@@ -71,4 +71,11 @@ public class Tray {
 		
 		st.add(trayIcon);
 	}
+
+	public static void close() {
+		final SystemTray st = SystemTray.getSystemTray();
+		for (TrayIcon i : st.getTrayIcons()) {
+			st.remove(i);
+		}
+	}
 }
