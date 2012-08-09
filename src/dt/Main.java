@@ -10,7 +10,7 @@ import dt.Popup.Listener;
 
 public class Main {
 
-	private static final long PERIOD = 10 * 1000l;
+	private static final long PERIOD = 15 * 60 * 1000l;
 
 	private static final Logger log = Util.getLogger();
 

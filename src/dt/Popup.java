@@ -89,7 +89,6 @@ public class Popup extends JFrame {
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Popup.class.getResource("/images/clock32.png")));
 		
-		setType(Type.POPUP);
 		setModalExclusionType(ModalExclusionType.TOOLKIT_EXCLUDE);
 		setAlwaysOnTop(true);
 		setTitle("'Sup?");
