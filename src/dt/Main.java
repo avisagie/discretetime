@@ -1,5 +1,6 @@
 package dt;
 
+import java.awt.AWTException;
 import java.awt.SystemTray;
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import dt.Popup.Listener;
 
 public class Main {
 
-	private static final long PERIOD = 15 * 60 * 1000l;
+	private static long period = 15 * 60 * 1000l;
 
 	private static final Logger log = Util.getLogger();
 
@@ -22,6 +23,10 @@ public class Main {
 	private static final Object sleep = new Object();
 
 	public static void main(String[] args) throws IOException {
+		if (System.getProperty("period") != null) {
+			period = Long.parseLong(System.getProperty("period"));
+		}
+
 		try {
 			setup();
 			timingLoop();
@@ -51,39 +56,61 @@ public class Main {
 			}
 		});
 
-		if (SystemTray.isSupported()) {
-			try {
-				Tray.setup(new Tray.Listener() {
-
-					@Override
-					public void settings() {
-						// TODO Auto-generated method stub
-					}
-
-					@Override
-					public void quit() {
-						synchronized (sleep) {
-							running = false;
-							sleep.notifyAll();
-						}
-						synchronized (lock) {
-							lock.notifyAll();
-						}
-					}
-
-					@Override
-					public void pause() {
-						// TODO Auto-generated method stub
-					}
-
-					@Override
-					public void popup() {
-						popup.popup();
-					}
-				});
-			} catch (Exception e) {
-				log.log(Level.WARNING, "Tray icon not set", e);
+		new Thread("StartupSystemTrayAdder") {
+			{
+				setDaemon(true);
 			}
+
+			@Override
+			public void run() {
+				loopyAddToSystemTray();
+			}
+		}.start();
+	}
+
+	// deal with windows startup issues in the background
+	private static void loopyAddToSystemTray() {
+		do {
+			try {
+				addToSystemTray();
+				break;
+			} catch (Exception ex) {
+				log.log(Level.FINE, "Could not get to SystemTray:", ex);
+			}
+			Util.sleep(5000);
+		} while (true);
+	}
+
+	private static void addToSystemTray() throws IOException, AWTException {
+		if (SystemTray.isSupported()) {
+			Tray.setup(new Tray.Listener() {
+
+				@Override
+				public void settings() {
+					// TODO Auto-generated method stub
+				}
+
+				@Override
+				public void quit() {
+					synchronized (sleep) {
+						running = false;
+						sleep.notifyAll();
+					}
+					synchronized (lock) {
+						lock.notifyAll();
+					}
+				}
+
+				@Override
+				public void pause() {
+					// TODO Auto-generated method stub
+				}
+
+				@Override
+				public void popup() {
+					popup.popup();
+				}
+			});
 		} else {
 			log.warning("SystemTray not available");
 		}
@@ -104,7 +131,7 @@ public class Main {
 
 			// Wait until it is time to come up again
 			final long start = System.currentTimeMillis();
-			while (System.currentTimeMillis() - start < PERIOD && running) {
+			while (System.currentTimeMillis() - start < period && running) {
 				synchronized (sleep) {
 					try {
 						if (running)
