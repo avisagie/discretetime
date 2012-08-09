@@ -20,6 +20,7 @@ public class Tray {
 		void settings();
 		void pause();
 		void quit();
+		void popup();
 	}
 	
 	public static void setup(final Listener listener) throws IOException, AWTException {
@@ -30,6 +31,16 @@ public class Tray {
 		final TrayIcon trayIcon = new TrayIcon(icon, "discretetime");
 		
 		final PopupMenu menu = new PopupMenu();
+		final MenuItem show = new MenuItem("Show...");
+		show.addActionListener(new ActionListener() {
+			@Override public void actionPerformed(ActionEvent e) {
+				listener.popup();
+			}
+		});
+		menu.add(show);
+		
+		menu.addSeparator();
+		
 		final MenuItem settings = new MenuItem("Settings...");
 		settings.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {

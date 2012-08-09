@@ -58,6 +58,11 @@ public class Main {
 					public void pause() {
 						// TODO Auto-generated method stub
 					}
+					
+					@Override
+					public void popup() {
+						popup.popup();
+					}
 				});
 			} catch (Exception e) {
 				log.log(Level.WARNING, "Tray icon not set", e);
