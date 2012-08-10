@@ -11,13 +11,15 @@ import dt.Popup.Listener;
 
 public class Main {
 
-	private static long period = 15 * 60 * 1000l;
+	private static long period = 10 * 60 * 1000l;
 
 	private static final Logger log = Util.getLogger();
 
 	private static Popup popup = null;
 
 	private static final Object lock = new Object();
+
+	private static boolean userPopup = false;
 
 	private static boolean running = true;
 	private static final Object sleep = new Object();
@@ -108,7 +110,10 @@ public class Main {
 
 				@Override
 				public void popup() {
-					popup.popup();
+					synchronized (sleep) {
+						userPopup = true;
+						sleep.notify();
+					}
 				}
 			});
 		} else {
@@ -119,6 +124,7 @@ public class Main {
 	private static void timingLoop() {
 		while (running) {
 			popup.popup();
+			userPopup = false;
 
 			// wait for the user to close the window
 			synchronized (lock) {
@@ -131,11 +137,13 @@ public class Main {
 
 			// Wait until it is time to come up again
 			final long start = System.currentTimeMillis();
-			while (System.currentTimeMillis() - start < period && running) {
+			while (System.currentTimeMillis() - start < period && running
+					&& !userPopup) {
 				synchronized (sleep) {
 					try {
-						if (running)
+						if (running) {
 							sleep.wait(1000);
+						}
 					} catch (InterruptedException e) {
 						log.log(Level.WARNING, "Unexpected interrupt", e);
 					}
