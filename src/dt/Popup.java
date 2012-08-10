@@ -30,16 +30,16 @@ public class Popup extends JFrame {
 	}
 
 	private static final Logger log = Util.getLogger();
-	
+
 	private static final long serialVersionUID = 3761241210357537202L;
-	
+
 	private JPanel contentPane;
 
 	private Notes model;
 
 	private Listener listener;
 	private JTextArea textArea;
-	
+
 	public void popup() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -62,13 +62,14 @@ public class Popup extends JFrame {
 
 	private void commit() {
 		try {
-			final String note = textArea.getText();
+			final String note = textArea.getText().trim();
 			Popup.this.model.addNote(new Date(), note);
-			textArea.setText(Notes.extractTags(note));			
+			textArea.setText(Notes.extractTags(note));
 			log.fine("Added note");
 		} catch (IOException e1) {
 			log.log(Level.WARNING, "Error:", e1);
-			JOptionPane.showMessageDialog(Popup.this, "Error:" + e1.getMessage(), "Error", ERROR);
+			JOptionPane.showMessageDialog(Popup.this,
+					"Error:" + e1.getMessage(), "Error", ERROR);
 		}
 		dismiss();
 	}
@@ -77,18 +78,20 @@ public class Popup extends JFrame {
 	 * Create the frame.
 	 */
 	public Popup(Notes model, Listener listener) {
-		
+
 		this.model = model;
 		this.listener = listener;
 
 		addWindowListener(new WindowAdapter() {
-			@Override public void windowClosing(WindowEvent e) {
+			@Override
+			public void windowClosing(WindowEvent e) {
 				dismiss();
 			}
 		});
-		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Popup.class.getResource("/images/clock32.png")));
-		
+
+		setIconImage(Toolkit.getDefaultToolkit().getImage(
+				Popup.class.getResource("/images/clock32.png")));
+
 		setModalExclusionType(ModalExclusionType.TOOLKIT_EXCLUDE);
 		setAlwaysOnTop(true);
 		setTitle("'Sup?");
@@ -98,30 +101,37 @@ public class Popup extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
-		
+
 		textArea = new JTextArea();
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
 		textArea.addKeyListener(new KeyAdapter() {
-			@Override public void keyTyped(KeyEvent e) {
-				if ((int)e.getKeyChar() == 27) {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				deal(e);
+			}
+
+			private void deal(KeyEvent e) {
+				if ((int) e.getKeyChar() == 27) {
 					dismiss();
 					e.consume();
-				} else if ((int)e.getKeyChar() == 10) {
+				} else if ((int) e.getKeyChar() == 10) {
+					textArea.setCaretPosition(textArea.getText().length());
 					commit();
 					e.consume();
 				}
 			}
 		});
 		scrollPane.setViewportView(textArea);
-		
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+
 		JButton btnDismiss = new JButton("Dismiss");
 		btnDismiss.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,7 +139,7 @@ public class Popup extends JFrame {
 			}
 		});
 		panel.add(btnDismiss);
-		
+
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
