@@ -40,11 +40,14 @@ public class Popup extends JFrame {
 	private Listener listener;
 	private JTextArea textArea;
 
+	private String lastTags = "";
+
 	public void popup() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					setLocationRelativeTo(null);
+					textArea.setText(lastTags);
 					setVisible(true);
 					textArea.grabFocus();
 					textArea.selectAll();
@@ -64,7 +67,9 @@ public class Popup extends JFrame {
 		try {
 			final String note = textArea.getText().trim();
 			Popup.this.model.addNote(new Date(), note);
-			textArea.setText(Notes.extractTags(note));
+			if (!note.isEmpty()) {
+				lastTags = Notes.extractTags(note);
+			}
 			log.fine("Added note");
 		} catch (IOException e1) {
 			log.log(Level.WARNING, "Error:", e1);
@@ -119,7 +124,7 @@ public class Popup extends JFrame {
 				if ((int) e.getKeyChar() == 27) {
 					dismiss();
 					e.consume();
-				} else if ((int) e.getKeyChar() == 10) {
+				} else if ((int) e.getKeyChar() == 10 && e.isAltDown()) {
 					textArea.setCaretPosition(textArea.getText().length());
 					commit();
 					e.consume();

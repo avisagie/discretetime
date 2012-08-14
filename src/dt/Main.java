@@ -11,8 +11,6 @@ import dt.Popup.Listener;
 
 public class Main {
 
-	private static long period = 10 * 60 * 1000l;
-
 	private static final Logger log = Util.getLogger();
 
 	private static Popup popup = null;
@@ -22,13 +20,11 @@ public class Main {
 	private static boolean userPopup = false;
 
 	private static boolean running = true;
+
+	private static Settings settings;
 	private static final Object sleep = new Object();
 
 	public static void main(String[] args) throws IOException {
-		if (System.getProperty("period") != null) {
-			period = Long.parseLong(System.getProperty("period"));
-		}
-
 		try {
 			setup();
 			timingLoop();
@@ -49,6 +45,10 @@ public class Main {
 				"discretetime");
 		log.log(Level.INFO, "Starting in {0}", file);
 		final Notes model = new Notes(file);
+		
+		final File settingsFile = new File(file, "settings.properties");
+		settings = new Settings(settingsFile);
+		
 		popup = new Popup(model, new Listener() {
 			@Override
 			public void done() {
@@ -89,7 +89,8 @@ public class Main {
 
 				@Override
 				public void settings() {
-					// TODO Auto-generated method stub
+					SettingsDialog dlg = new SettingsDialog(settings);
+					dlg.setVisible(true);
 				}
 
 				@Override
@@ -137,7 +138,7 @@ public class Main {
 
 			// Wait until it is time to come up again
 			final long start = System.currentTimeMillis();
-			while (System.currentTimeMillis() - start < period && running
+			while (System.currentTimeMillis() - start < settings.getDelayMinutes()*60000L && running
 					&& !userPopup) {
 				synchronized (sleep) {
 					try {

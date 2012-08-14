@@ -32,7 +32,7 @@ public class Notes {
 			StringBuilder sb = new StringBuilder();
 			sb.append(Util.formatDate(timestamp)).append(',');
 			extractTags(sb, note).append(',');
-			sb.append(note.replace('\n', ';').replace("\r", ""));
+			sb.append(note.replace("\n", "\\n").replace("\r", "").replace(",", "\\c"));
 			out.println(sb.toString());
 		} finally {
 			out.flush();

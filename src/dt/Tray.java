@@ -55,14 +55,14 @@ public class Tray {
 		});
 		menu.add(settings);
 
-		final MenuItem pause = new MenuItem("Pause...");
-		pause.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				listener.pause();
-			}
-		});
-		menu.add(pause);
+//		final MenuItem pause = new MenuItem("Pause...");
+//		pause.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				listener.pause();
+//			}
+//		});
+//		menu.add(pause);
 
 		menu.addSeparator();
 
