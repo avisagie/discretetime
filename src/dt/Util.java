@@ -26,7 +26,7 @@ public class Util {
 	private static final SimpleDateFormat dateFmt() {
 		SimpleDateFormat ret = fmt.get();
 		if (ret == null) {
-			ret = new SimpleDateFormat("yyyyMMdd-hhmmss");
+			ret = new SimpleDateFormat("yyyyMMdd-HHmmss");
 			fmt.set(ret);
 		}
 		return ret;

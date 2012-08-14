@@ -13,7 +13,7 @@
   
   <target name="create_run_jar" depends="compile,images">
     <mkdir dir="out"/>
-    <jar destfile="out/discretetime-0.2.jar" filesetmanifest="mergewithoutmain">
+    <jar destfile="out/discretetime-0.3.jar" filesetmanifest="mergewithoutmain">
       <manifest>
         <attribute name="Main-Class" value="dt.Main"/>
         <attribute name="Class-Path" value="."/>
@@ -32,7 +32,7 @@
     <copy file="discretetime.sh" todir="out"/>
     <chmod file="out/discretetime.sh" perm="755"/>
     <copy file="logging.properties" todir="out"/>
-    <zip basedir="out" destfile="discretetime-0.2.zip">
+    <zip basedir="out" destfile="discretetime-0.3.zip">
       <include name="*"/>
     </zip>
   </target>
