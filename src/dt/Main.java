@@ -45,15 +45,14 @@ public class Main {
 
 	private static void setup() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		
-		final File file = new File(System.getProperty("user.home"),
-				"discretetime");
+
+		final File file = new File(System.getProperty("user.home"), "discretetime");
 		log.log(Level.INFO, "Starting in {0}", file);
 		final Notes model = new Notes(file);
-		
+
 		final File settingsFile = new File(file, "settings.properties");
 		settings = new Settings(settingsFile);
-		
+
 		popup = new Popup(model, new Listener() {
 			@Override
 			public void done() {
@@ -143,8 +142,8 @@ public class Main {
 
 			// Wait until it is time to come up again
 			final long start = System.currentTimeMillis();
-			while (System.currentTimeMillis() - start < settings.getDelayMinutes()*60000L && running
-					&& !userPopup) {
+			while (System.currentTimeMillis() - start < settings
+					.getDelayMinutes() * 60000L && running && !userPopup) {
 				synchronized (sleep) {
 					try {
 						if (running) {
