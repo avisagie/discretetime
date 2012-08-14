@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import dt.Popup.Listener;
 
 public class Main {
@@ -40,7 +43,9 @@ public class Main {
 		}
 	}
 
-	private static void setup() throws IOException {
+	private static void setup() throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		
 		final File file = new File(System.getProperty("user.home"),
 				"discretetime");
 		log.log(Level.INFO, "Starting in {0}", file);

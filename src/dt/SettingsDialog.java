@@ -53,7 +53,7 @@ public class SettingsDialog extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
 		setTitle("discretetime Settings");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 366, 190);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
