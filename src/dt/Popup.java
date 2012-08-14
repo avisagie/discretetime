@@ -121,6 +121,7 @@ public class Popup extends JFrame {
 			}
 
 			private void deal(KeyEvent e) {
+				// TODO the right thing
 				if ((int) e.getKeyChar() == 27) {
 					dismiss();
 					e.consume();
@@ -128,6 +129,8 @@ public class Popup extends JFrame {
 					textArea.setCaretPosition(textArea.getText().length());
 					commit();
 					e.consume();
+				} else if (e.getKeyCode() == 90) {
+					textArea.setText(lastTags);
 				}
 			}
 		});
