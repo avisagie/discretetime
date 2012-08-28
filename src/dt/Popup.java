@@ -129,7 +129,7 @@ public class Popup extends JFrame {
 					textArea.setCaretPosition(textArea.getText().length());
 					commit();
 					e.consume();
-				} else if (e.getKeyCode() == 90) {
+				} else if (e.getKeyCode() == 90 && (e.getModifiers()&(KeyEvent.CTRL_MASK|KeyEvent.CTRL_DOWN_MASK)) != 0) {
 					textArea.setText(lastTags);
 				}
 			}
