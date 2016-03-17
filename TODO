@@ -1,10 +1,6 @@
 
 * TODO Doc keyboard short-cuts
 
-* TODO Click system tray icon to open
-  <2016-03-17 Thu>
-  Instead of choosing open from the menu
-
 * TODO Time per tag analysis GUI
   <2016-03-17 Thu>
   HTML instead of java fx?
@@ -12,6 +8,10 @@
 * TODO Make it not minimizable
   <2012-08-09 Thu>
   and double check always on top.
+
+* DONE Click system tray icon to open
+  <2016-03-17 Thu>
+  Instead of choosing open from the menu
 
 * DONE use something other than enter to commit
   <2012-08-14 Tue>
