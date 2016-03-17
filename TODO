@@ -1,22 +1,27 @@
-DONE <2012-08-14 Tue> use something other than enter to commit
-Alt-enter now commits. Enter just goes into the note.
 
-DONE <2012-08-09 Thu> get :tags out and add to a different csv field
-from notes
+* TODO Doc keyboard short-cuts
 
-<2012-08-09 Thu> Ponder duration field, time spent not editing in the
-box is idle time?  Maybe it should have an include tick box to include
-the preceding timerange or not? Default is included... What to do
-about shared time ranges, i.e. timeranges with more than one tag?
+* TODO Click system tray icon to open
+  <2016-03-17 Thu>
+  Instead of choosing open from the menu
 
-<2012-08-09 Thu> Make it not minimizable, and double check always on
-top.
+* TODO Time per tag analysis GUI
+  <2016-03-17 Thu>
+  HTML instead of java fx?
+  
+* TODO Make it not minimizable
+  <2012-08-09 Thu>
+  and double check always on top.
 
-DONE <2012-08-09 Thu>
-Tray icon, menu
+* DONE use something other than enter to commit
+  <2012-08-14 Tue>
+  Alt-enter now commits. Enter just goes into the note.
 
-jar packaging, install instructions
+* DONE get :tags out and add to a different csv field from notes
+  <2012-08-09 Thu>
 
-Config file:
-* interval
-* 
+* DONE Tray icon, menu
+  <2012-08-09 Thu>
+
+* DONE jar packaging, install instructions
+
