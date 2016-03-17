@@ -3,6 +3,7 @@ apply plugin: 'eclipse'
 apply plugin: 'application'
 
 mainClassName = 'dt.Main'
+applicationDefaultJvmArgs = ['-Xmx64m','-Xms16m']
 
 group = 'asv'
 version = '0.6'
