@@ -1,0 +1,8 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+mainClassName = 'dt.Main'
+
+group = 'asv'
+version = '0.6'

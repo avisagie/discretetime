@@ -7,3 +7,9 @@
 out
 bin
 *~
+
+.settings
+.project
+.classpath
+.gradle
+/build

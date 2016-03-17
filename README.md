@@ -61,15 +61,23 @@ time.
 Installation
 ============
 
-Install Java from http://www.java.com/en/download/index.jsp. Take care
-to not install the browser plugins - they have recently been found to
-be incredibly insecure and widely exploited.
+Install Java.
 
 Grab the zip file, unzip somewhere, and double-click or run the
 appropriate script for your platform. (E.g. discretetime.bat for
 Windows)
 
 discretetime goes and sits in the system tray in Windows and Linux.
+
+Building
+========
+
+You need gradle and java 8.
+
+```
+    git clone https://github.com/avisagie/discretetime.git
+    gradle build
+```
 
 Analysis
 ========
@@ -80,8 +88,10 @@ of your notes.utf8.txt. Unfortunately you need the command line.
 The following example is for Windows. Suppose I unzipped the
 distribution at C:\dt... Run the following commands
 
+```
     cd C:\dt
     java -cp discretetime-0.5.jar dt.SimpleFilter
+```
 
 To see all your :radproject tags, add +:radprojects to the
 commandline. To remove all time with :talk, add -:talk.
