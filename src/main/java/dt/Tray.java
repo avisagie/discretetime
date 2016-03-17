@@ -7,8 +7,6 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
@@ -36,23 +34,13 @@ public class Tray {
 
 		final PopupMenu menu = new PopupMenu();
 		final MenuItem show = new MenuItem("Show...");
-		show.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				listener.popup();
-			}
-		});
+		show.addActionListener((evt) -> listener.popup());
 		menu.add(show);
 
 		menu.addSeparator();
 
 		final MenuItem settings = new MenuItem("Settings...");
-		settings.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				listener.settings();
-			}
-		});
+		settings.addActionListener((evt) -> listener.settings());
 		menu.add(settings);
 
 //		final MenuItem pause = new MenuItem("Pause...");
@@ -67,15 +55,12 @@ public class Tray {
 		menu.addSeparator();
 
 		final MenuItem quit = new MenuItem("Quit");
-		quit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				listener.quit();
-			}
-		});
+		quit.addActionListener(evt -> listener.quit());
 		menu.add(quit);
 
 		trayIcon.setPopupMenu(menu);
+		
+		trayIcon.addActionListener((evt) -> listener.popup());
 
 		st.add(trayIcon);
 	}
