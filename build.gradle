@@ -6,4 +6,4 @@ mainClassName = 'dt.Main'
 applicationDefaultJvmArgs = ['-Xmx64m','-Xms16m']
 
 group = 'asv'
-version = '0.6'
+version = '0.6-SNAPSHOT'
